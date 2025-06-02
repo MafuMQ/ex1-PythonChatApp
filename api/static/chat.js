@@ -33,7 +33,7 @@ function appendMessage(data) {
     chat.scrollTop = chat.scrollHeight;
 }
 
-setInterval(fetchMessages, 100);
+setInterval(fetchMessages, 1000);
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Send message ---
