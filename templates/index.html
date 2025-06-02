@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python Chat App</title>
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; margin: 2em; }
         #chat { border: 1px solid #ccc; padding: 1em; height: 300px; overflow-y: auto; margin-bottom: 1em; }
@@ -31,84 +30,6 @@
         <button type="submit">Change Username</button>
     </form>
 
-    <script>
-        const socket = io();
-
-        let userName = '';
-        let iconURL = '';
-
-        // On connection, receive username and avatar
-        socket.on('user_connected', function(data) {
-            userName = data.userName;
-            iconURL = data.iconURL;
-            document.getElementById('username').textContent = userName;
-            document.getElementById('avatar').src = iconURL;
-        });
-
-        // Update username if changed
-        socket.on('username', function(newName) {
-            userName = newName;
-            document.getElementById('username').textContent = userName;
-        });
-
-        // Listen for incoming messages
-        socket.on('receive_message', function(data) {
-            const chat = document.getElementById('chat');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'message';
-            msgDiv.innerHTML = `<img src="${data.iconURL}" width="24" height="24" style="vertical-align:middle;border-radius:50%;"> <span class="username">${data.userName}:</span> ${data.message}`;
-            chat.appendChild(msgDiv);
-            chat.scrollTop = chat.scrollHeight;
-        });
-
-        // Listen for user connected/disconnected events
-        socket.on('new_user_connected', function(data) {
-            const chat = document.getElementById('chat');
-            const info = document.createElement('div');
-            info.style.color = 'green';
-            info.textContent = `${data.userName} joined the chat.`;
-            chat.appendChild(info);
-        });
-
-        socket.on('user_disconnected', function(data) {
-            const chat = document.getElementById('chat');
-            const info = document.createElement('div');
-            info.style.color = 'red';
-            info.textContent = `${data.userName} left the chat.`;
-            chat.appendChild(info);
-        });
-
-        // Send message
-        document.getElementById('message-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const input = document.getElementById('message-input');
-            const message = input.value.trim();
-            if (message) {
-                socket.emit('send_message', { message: message });
-                input.value = '';
-            }
-        });
-
-        // Change username
-        document.getElementById('username-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const newUserName = document.getElementById('new-username').value.trim();
-            if (newUserName) {
-                socket.emit('change_username', { newUserName: newUserName });
-                document.getElementById('new-username').value = '';
-            }
-        });
-
-        // Optionally, listen for username change broadcasts
-        socket.on('username_changed', function(data) {
-            // Write a system message to the chatbox
-            const chat = document.getElementById('chat');
-            const info = document.createElement('div');
-            info.style.color = 'blue';
-            info.textContent = `${data.oldUserName} changed their name to ${data.newUserName}`;
-            chat.appendChild(info);
-            chat.scrollTop = chat.scrollHeight;
-        });
-    </script>
+    <script src="{{ url_for('static', filename='chat.js') }}"></script>
 </body>
 </html>
