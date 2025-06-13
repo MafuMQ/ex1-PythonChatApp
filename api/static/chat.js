@@ -61,9 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newUserName = document.getElementById('new-username').value.trim();
         if (newUserName) {
             userName = newUserName;
-            iconURL = `https://avatar.iran.liara.run/public/${iconStyle}?username=${userName}`;
             document.getElementById('username').textContent = userName;
-            document.getElementById('avatar').src = iconURL;
             document.getElementById('new-username').value = '';
             // Optionally, send a system message about the name change
             fetch('/api/send_message', {
