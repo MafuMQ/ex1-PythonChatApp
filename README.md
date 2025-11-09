@@ -2,7 +2,6 @@
 
 ## Features
 - Real-time messaging using WebSockets.
-- User authentication and management.
 - Supports multiple chat rooms.
 - Allows file sharing and media embedding.
   
